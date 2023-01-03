@@ -28,6 +28,9 @@
                 </div>
                 <div class="login-form">
                     <form action="#" method="post">
+                        <?php if (Flash::has('login')): ?>
+                        <div class="alert alert-danger"><?= Flash::get('login') ?></div>
+                        <?php endif; ?>
                         <div class="form-group">
                             <label>Email address</label>
                             <input type="email" class="form-control" name="email" placeholder="Email">

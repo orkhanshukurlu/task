@@ -16,7 +16,9 @@ if (Request::isMethod('POST')) {
 
     if (! Validator::required($email)) {
         Flash::put('email', 'Email adresi boş ola bilməz');
-        View::render('_login');
+        print_r($_SESSION);
+        Redirect::back();
+//        View::render('_login');
     } elseif (! Validator::max($email, 256)) {
         Flash::put('email', 'Email adresi maksimum 256 simvol ola bilər');
         View::render('_login');
@@ -27,7 +29,14 @@ if (Request::isMethod('POST')) {
         Flash::put('password', 'Şifrə boş ola bilməz');
         View::render('_login');
     } else {
-//        print_r((new Auth())->login($email, $password));
+        $hasUser = (new Auth())->login($email, $password);
+
+        if ($hasUser) {
+            View::render('_dashboard');
+        } else {
+            Flash::put('login', 'Daxil edilən email və ya şifrə yanlışdır');
+            View::render('_login');
+        }
     }
 } else {
     View::render('_login');
