@@ -3,7 +3,7 @@
 require_once __DIR__.'/autoload.php';
 
 if (logged_in()) {
-    die('Səhifəyə giriş etmək üçün icazəniz yoxdur');
+    Redirect::to(base_url() . '/dashboard.php');
 }
 
 if (Request::isMethod('POST')) {
@@ -19,13 +19,10 @@ if (Request::isMethod('POST')) {
     } elseif (! Validator::required($pass)) {
         Redirect::back()->with('password', 'Şifrə boş ola bilməz');
     } else {
-        $hasUser = (new Auth())->login($email, $password);
-
-        if ($hasUser) {
-            View::render('_dashboard');
+        if ((new Auth())->login($email, $pass)) {
+            Redirect::to(base_url() . '/dashboard.php')->with('success', 'Uğurla daxil oldunuz');
         } else {
-            Flash::put('login', 'Daxil edilən email və ya şifrə yanlışdır');
-            View::render('_login');
+            Redirect::back()->with('error', 'Daxil edilən email və ya şifrə yanlışdır');
         }
     }
 } else {

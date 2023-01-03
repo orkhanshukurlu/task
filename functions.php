@@ -25,3 +25,13 @@ if (! function_exists('show_error'))
         }
     }
 }
+
+if (! function_exists('user'))
+{
+    function user()
+    {
+        if (Session::has('user')) {
+            return Session::get('user');
+        }
+    }
+}

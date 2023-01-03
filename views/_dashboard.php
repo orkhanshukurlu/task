@@ -168,6 +168,9 @@
                 </div>
             </header>
             <div class="content">
+                <?php if (Flash::has('success')): ?>
+                    <div class="alert alert-success"><?= Flash::get('success') ?></div>
+                <?php endif; ?>
                 <div class="animated fadeIn">
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
@@ -251,7 +254,7 @@
                                             <h3 class="text-center">Məlumatları doldur</h3>
                                         </div>
                                         <hr>
-                                        <form action="#" method="post" novalidate="novalidate">
+                                        <form action="#" method="post" enctype="multipart/form-data">
                                             <div class="form-group text-center">
                                                 <ul class="list-inline">
                                                     <li class="list-inline-item"><i class="text-muted fa fa-cc-visa fa-2x"></i></li>
@@ -261,15 +264,15 @@
                                                 </ul>
                                             </div>
                                             <div class="form-group">
-                                                <label for="cc-payment" class="control-label mb-1">Məbləğ</label>
-                                                <input id="cc-payment" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" value="100.00">
+                                                <label for="price" class="control-label mb-1">Məbləğ</label>
+                                                <input name="price" type="text" class="form-control" value="100.00">
                                             </div>
                                             <div class="row form-group">
-                                                <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
-                                                <div class="col-12 col-md-9"><input type="file" id="file-input" name="file-input" class="form-control-file"></div>
+                                                <div class="col col-md-12"><label for="file-input" class="form-control-label">File input</label></div>
+                                                <div class="col-12 col-md-9"><input type="file" name="photo" class="form-control-file"></div>
                                             </div>
                                             <div>
-                                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                                <button type="submit" class="btn btn-lg btn-info btn-block">
                                                     <i class="fa fa-lock fa-lg"></i>&nbsp;
                                                     <span id="payment-button-amount">Göndər</span>
                                                     <span id="payment-button-sending" style="display:none;">Sending…</span>

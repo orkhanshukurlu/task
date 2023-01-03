@@ -3,8 +3,8 @@
 require_once __DIR__.'/autoload.php';
 
 if (! logged_in()) {
-    die('Səhifəyə giriş etmək üçün icazəniz yoxdur');
+    Redirect::to(base_url() . '/login.php')->with('', '');
 }
 
 (new Auth)->logout();
-Redirect::to(base_url() . '/login.php')->with('logout', 'Şifrə boş ola bilməz');
+Redirect::to(base_url() . '/login.php')->with('success', 'Uğurla çıxış etdiniz');

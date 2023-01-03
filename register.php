@@ -3,7 +3,7 @@
 require_once __DIR__.'/autoload.php';
 
 if (logged_in()) {
-    die('Səhifəyə giriş etmək üçün icazəniz yoxdur');
+    Redirect::to(base_url() . '/dashboard.php');
 }
 
 if (Request::isMethod('POST')) {
@@ -28,7 +28,7 @@ if (Request::isMethod('POST')) {
         Redirect::back()->with('terms_policy', 'Şərtlər və siyasətlə razılaşmamısınız');
     } else {
         (new Auth())->register($username, $email, $password);
-        Redirect::to(base_url() . '/dashboard.php');
+        Redirect::to(base_url() . '/dashboard.php')->with('success', 'Uğurla qeydiyyatdan keçdiniz');
     }
 } else {
     View::render('_register');

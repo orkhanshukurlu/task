@@ -2,10 +2,20 @@
 
 class File
 {
-//    public static function upload($field)
-//    {
-//        if (! isset($_FILES))
-//    }
+    private static $extensions = ['jpeg', 'jpg', 'png'];
+
+    public static function upload($field)
+    {
+        $file = $_FILES[$field];
+
+        $tmp = $file['tmp_name'];
+        $arr = explode('.', $file['name']);
+        $ext = strtolower(end($arr));
+        $name = uniqid() . '.' . $ext;
+        move_uploaded_file($tmp, __DIR__."/../uploads/$name");
+        return $name;
+    }
+
 //}
 //
 //   if(isset($_FILES['image'])){

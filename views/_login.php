@@ -28,8 +28,11 @@
                 </div>
                 <div class="login-form">
                     <form action="#" method="post">
-                        <?php if (Flash::has('login')): ?>
-                        <div class="alert alert-danger"><?= Flash::get('login') ?></div>
+                        <?php if (Flash::has('success')): ?>
+                            <div class="alert alert-success"><?= Flash::get('success') ?></div>
+                        <?php endif; ?>
+                        <?php if (Flash::has('error')): ?>
+                            <div class="alert alert-danger"><?= Flash::get('error') ?></div>
                         <?php endif; ?>
                         <div class="form-group">
                             <label>Email address</label>
