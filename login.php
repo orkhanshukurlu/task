@@ -16,9 +16,7 @@ if (Request::isMethod('POST')) {
 
     if (! Validator::required($email)) {
         Flash::put('email', 'Email adresi boş ola bilməz');
-        print_r($_SESSION);
-        Redirect::back();
-//        View::render('_login');
+        View::render('_login');
     } elseif (! Validator::max($email, 256)) {
         Flash::put('email', 'Email adresi maksimum 256 simvol ola bilər');
         View::render('_login');

@@ -2,7 +2,7 @@
 
 if (! function_exists('base_url'))
 {
-    function base_url($ssl = false)
+    function base_url()
     {
         return 'http://localhost/task';
     }
