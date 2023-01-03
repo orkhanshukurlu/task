@@ -10,6 +10,12 @@ class Redirect
         return new static;
     }
 
+    public static function to($url)
+    {
+        header("Location: $url");
+        return new static;
+    }
+
     public function with($key, $value)
     {
         $_SESSION[self::$sessKey][$key] = $value;

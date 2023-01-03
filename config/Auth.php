@@ -19,12 +19,16 @@ class Auth
         return true;
     }
 
+    public function logout()
+    {
+        Session::forget('user');
+    }
+
     public function register($username, $email, $password, $role = 1)
     {
         $userId   = $this->createUser($username, $email, $password, $role);
         $userData = $this->findUserById($userId);
         Session::put('user', $userData);
-        return $userData;
     }
 
     private function createUser($username, $email, $password, $role)
