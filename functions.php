@@ -8,6 +8,14 @@ if (! function_exists('base_url'))
     }
 }
 
+if (! function_exists('logged_in'))
+{
+    function logged_in()
+    {
+        return Session::has('user');
+    }
+}
+
 if (! function_exists('show_error'))
 {
     function show_error($field)
@@ -15,20 +23,5 @@ if (! function_exists('show_error'))
         if (Flash::has($field)) {
             return '<small style="color: red">' . Flash::get($field) . '</small>';
         }
-    }
-}
-
-
-
-if (! function_exists('alert')) {
-    function alert()
-    {
-        return "<script>
-                iziToast.show({
-                    title: 'Hey',
-                    message: 'What would you like to add?',
-                    position: 'topRight'
-                });
-            </script>";
     }
 }

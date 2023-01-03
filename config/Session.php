@@ -2,13 +2,6 @@
 
 class Session
 {
-    public function __construct()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
-
     public static function forget($key)
     {
         if (self::has($key)) {

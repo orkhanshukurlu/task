@@ -2,30 +2,22 @@
 
 require_once __DIR__.'/autoload.php';
 
-if (Session::has('user')) {
-    die('Authorization Error');
+if (logged_in()) {
+    die('Səhifəyə giriş etmək üçün icazəniz yoxdur');
 }
 
 if (Request::isMethod('POST')) {
-    Request::checkFields(['email', 'password']);
-
-    $email    = Request::post('email');
-    $password = Request::post('password');
-
-    $errors = [];
+    $email = Request::post('email');
+    $pass  = Request::post('password');
 
     if (! Validator::required($email)) {
-        Flash::put('email', 'Email adresi boş ola bilməz');
-        View::render('_login');
+        Redirect::back()->with('email', 'Email adresi boş ola bilməz');
     } elseif (! Validator::max($email, 256)) {
-        Flash::put('email', 'Email adresi maksimum 256 simvol ola bilər');
-        View::render('_login');
+        Redirect::back()->with('email', 'Email adresi maksimum 256 simvol ola bilər');
     } elseif (! Validator::email($email)) {
-        Flash::put('email', 'Email adresi düzgün daxil edilməyib');
-        View::render('_login');
-    } elseif (! Validator::required($password)) {
-        Flash::put('password', 'Şifrə boş ola bilməz');
-        View::render('_login');
+        Redirect::back()->with('email', 'Email adresi düzgün daxil edilməyib');
+    } elseif (! Validator::required($pass)) {
+        Redirect::back()->with('password', 'Şifrə boş ola bilməz');
     } else {
         $hasUser = (new Auth())->login($email, $password);
 
