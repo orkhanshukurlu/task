@@ -15,7 +15,8 @@ if (Request::isMethod('POST')) {
         Redirect::back()->with('price', 'İstifadəçi adı maksimum 256 simvol ola bilər');
     } else {
         $image = File::upload('photo');
-        (new Database)->createPayment(user()->id, Request::post('price'), $image, 0);
+        (new Database)->createPayment(user()->id, Request::post('price'), $image);
+        Redirect::back()->with('success', 'Əməliyyat uğurla başa çatdı');
     }
 } else {
     View::render('_dashboard');

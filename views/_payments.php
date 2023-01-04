@@ -124,7 +124,7 @@
                             <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
                             <a class="nav-link" href="#"><i class="fa fa-bell-o"></i>Notifications <span class="count">13</span></a>
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i>Settings</a>
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
+                            <a class="nav-link" href="<?= base_url() ?>/logout.php"><i class="fa fa-power-off"></i>Logout</a>
                         </div>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                                             <th>Ad</th>
                                             <th>Şəkil</th>
                                             <th>Status</th>
-                                            <?php if (user()->role == 1): ?>
+                                            <?php if (user()->role == 2): ?>
                                                 <th>Əməliyyat</th>
                                             <?php endif; ?>
                                         </tr>
@@ -197,12 +197,15 @@
                                                         <span class="badge badge-danger">UĞURSUZ</span>
                                                     <?php endif; ?>
                                                 </td>
-                                                <?php if (user()->role == 1): ?>
+                                                <?php if (user()->role == 2): ?>
                                                     <td>
-                                                        <?php if ($payment->status == 0 || $payment->status == 2): ?>
-                                                            <a href="<?= base_url() . '/edit_payment.php?id=' . $payment->id . '&status=1' ?>" class="btn btn-info">Accept</a>
+                                                        <?php if ($payment->status == 2): ?>
+                                                            <a href="<?= base_url() . '/edit_payment.php?id=' . $payment->id . '&status=1' ?>" class="btn btn-success">Accept</a>
+                                                            <a href="<?= base_url() . '/edit_payment.php?id=' . $payment->id . '&status=0' ?>" class="btn btn-danger">Cancel</a>
+                                                        <?php elseif ($payment->status == 1): ?>
+                                                            <a href="<?= base_url() . '/edit_payment.php?id=' . $payment->id . '&status=0' ?>" class="btn btn-danger">Cancel</a>
                                                         <?php else: ?>
-                                                            <a href="<?= base_url() . '/edit_payment.php?id=' . $payment->id . '&status=0' ?>" class="btn btn-info">Cancel</a>
+                                                            <a href="<?= base_url() . '/edit_payment.php?id=' . $payment->id . '&status=1' ?>" class="btn btn-success">Accept</a>
                                                         <?php endif; ?>
                                                     </td>
                                                 <?php endif; ?>

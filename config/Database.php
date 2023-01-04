@@ -24,7 +24,7 @@ class Database
         return $this->conn;
     }
 
-    public function createPayment($userId, $price, $image, $status = 0)
+    public function createPayment($userId, $price, $image, $status = 2)
     {
         $query = $this->conn->prepare("
             INSERT INTO payments (user_id, price, image, status) 

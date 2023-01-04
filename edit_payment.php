@@ -6,6 +6,10 @@ if (! logged_in()) {
     Redirect::to(base_url() . '/login.php');
 }
 
+if (user()->role != 2) {
+    Redirect::back();
+}
+
 $id     = Request::get('id');
 $status = Request::get('status');
 
