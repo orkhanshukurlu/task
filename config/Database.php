@@ -24,6 +24,14 @@ class Database
         return $this->conn;
     }
 
+    public function createCompany($name)
+    {
+        $query = $this->conn->prepare("INSERT INTO companies (name) VALUES (:name)");
+        $query->bindParam(':name', $name);
+        $query->execute();
+        return $this->conn->lastInsertId();
+    }
+
     public function createPayment($userId, $price, $image, $status = 2)
     {
         $query = $this->conn->prepare("
@@ -48,6 +56,50 @@ class Database
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function editUser($id, $username, $email, $password = null, $phone = null)
+    {
+        if (is_null($password)) {
+            $query = $this->conn->prepare("
+                UPDATE users 
+                SET username = :username, email = :email, phone = :phone
+                WHERE id = :id
+            ");
+
+            $query->bindParam(':username', $username);
+            $query->bindParam(':email',    $email);
+            $query->bindParam(':phone',    $phone);
+            $query->bindParam(':id',       $id);
+        } else {
+            $query = $this->conn->prepare("
+                UPDATE users 
+                SET username = :username, email = :email, password = :password, phone = :phone
+                WHERE id = :id
+            ");
+
+            $password = md5(sha1($password));
+
+            $query->bindParam(':username', $username);
+            $query->bindParam(':email',    $email);
+            $query->bindParam(':password', $password);
+            $query->bindParam(':phone',    $phone);
+            $query->bindParam(':id',       $id);
+        }
+
+        $query->execute();
+        $user = $this->findUserById($id);
+        Session::forget('user');
+        Session::put('user', $user);
+        return $user;
+    }
+
+    public function findUserById($id)
+    {
+        $query = $this->conn->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
     public function getPayments()
     {
         if (user()->role == 2) {
@@ -68,6 +120,19 @@ class Database
 
             $query->bindParam(':id', user()->id);
         }
+
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function getUsers()
+    {
+        $query = $this->conn->prepare("
+            SELECT u.id, u.username, u.phone, sum(p.price) price
+            FROM users u
+            LEFT JOIN payments p ON p.user_id = u.id
+            WHERE p.status = 1
+        ");
 
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
