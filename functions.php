@@ -16,6 +16,18 @@ if (! function_exists('logged_in'))
     }
 }
 
+if (! function_exists('price'))
+{
+    function price()
+    {
+        if ($user = (new Database())->getUserPayment()) {
+            return $user->price;
+        }
+
+        return 0;
+    }
+}
+
 if (! function_exists('show_error'))
 {
     function show_error($field)

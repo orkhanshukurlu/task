@@ -138,6 +138,20 @@ class Database
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function getUserPayment()
+    {
+        $query = $this->conn->prepare("
+            SELECT sum(p.price) price
+            FROM users u
+            LEFT JOIN payments p ON p.user_id = u.id
+            WHERE u.id = :id AND p.status = 1
+        ");
+
+        $query->bindParam(':id', user()->id);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
     public function __destruct()
     {
         $this->conn = null;
